@@ -21,7 +21,7 @@ function startAggregation(){
       adAggregation[ad_id] = { clicks: 0 };
     }
 
-    adAggregation[campaignId].clicks += 1;
+    adAggregation[ad_id].clicks += 1;
     console.log('Current Aggregation:', adAggregation);
   });
 

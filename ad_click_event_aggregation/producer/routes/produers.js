@@ -8,6 +8,15 @@ const kafkaHost = process.env.KAFKA_HOST || 'localhost:9092';
 const client = new kafka.KafkaClient({ kafkaHost });
 const producer = new kafka.Producer(client);
 
+producer.on('ready', () => {
+  producerIsReady = true
+  console.log("Producer is ready")
+});
+
+producer.on('error', (err) => {
+  console.error('Producer error:', err);
+});
+
 let producerIsReady = false
 
 client.createTopics(
@@ -26,15 +35,6 @@ client.createTopics(
     } else {
       console.log('Topic created successfully:', result);
     }
-
-    producer.on('ready', () => {
-      producerIsReady = true
-      console.log("Producer is ready")
-    });
-
-    producer.on('error', (err) => {
-      console.error('Producer error:', err);
-    });
   },
 );
 
@@ -62,6 +62,7 @@ function startProducer(count) {
         }
       });
     }
+    console.log(`sending ${count} message`)
   }, 1000);
 
 }

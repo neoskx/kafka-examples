@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "DEBUG=producer:* node ./bin/www",
+    "start": "DEBUG=producer:server node ./bin/www",
     "dev": "DEBUG=producer:* nodemon --inspect=9229 ./bin/www"
   },
   "dependencies": {

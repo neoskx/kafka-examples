@@ -2,4 +2,6 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  ul
+    li: a(href="#{start}", title="Start Consumer", target="_blank") Start Consumer
+    li: a(href="#{stop}", title="Stop Consumer", target="_blank") Stop Consumer

@@ -6,7 +6,7 @@ function readJSONFiles(filePath) {
   if (fs.existsSync(filePath)) {
     const data = fs.readFileSync(filePath, 'utf8');
     // console.log(data);
-    return data;
+    return JSON.parse(data);
   }
   return [];
 }
@@ -57,11 +57,13 @@ function generateAdsEvents(count) {
   const adsEvents = [];
   for (let i = 0; i < count; i++) {
     const adsId = adsIds[Math.floor(Math.random() * adsIds.length)];
-    const user = users[Math.floor(Math.random() * users.length)];
-    adsEvents.push({
+    const userIndex = Math.floor(Math.random() * users.length);
+    const user = users[userIndex];
+    const event = {
       ad_id: adsId,
       ...user,
-    });
+    }
+    adsEvents.push(event);
   }
 
   return adsEvents;
