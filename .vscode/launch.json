@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "compounds": [],
+  "configurations": [
+    {
+      "type": "node",
+      "name": "Debug Producer",
+      "request": "attach",
+      "port": 9229
+    },
+    {
+      "type": "node",
+      "name": "Debug Consumer",
+      "request": "attach",
+      "port": 9239
+    }
+  ]
+}
