@@ -1,7 +1,18 @@
-version: '1'
+version: '3.8'
+
+x-defaults: &default_resources
+  deploy:
+      resources:
+        limits:
+          cpus: '1.00'   # Limit to 1 CPU core (Swarm mode)
+          memory: '1G'   # Limit to 1GB of memory (Swarm mode)
+        reservations:
+          cpus: '0.25'   # Reserve 25% of a CPU core (Swarm mode)
+          memory: '256M' # Reserve 256MB of memory (Swarm mode)
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
+    <<: *default_resources  # Apply default resources
     ports:
       - "2181:2181"
     environment:
@@ -9,15 +20,18 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
   zoonavigator:
     image: elkozmon/zoonavigator:latest
+    <<: *default_resources  # Apply default resources
     ports:
       - "8000:8000"
     environment:
       HTTP_PORT: 8000
       ZK_DEFAULT_NODE: zookeeper:2181
+      ALLOW_ANONYMOUS_LOGIN: "yes"
     depends_on:
       - zookeeper
   kafka:
     image: confluentinc/cp-kafka:latest
+    <<: *default_resources  # Apply default resources
     ports:
       - "9092:9092"
     environment:
