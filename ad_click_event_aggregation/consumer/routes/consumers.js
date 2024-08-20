@@ -1,16 +1,14 @@
-const  express = require('express');
+const express = require('express');
 const kafka = require('kafka-node');
 
 const router = express.Router();
 const kafkaHost = process.env.KAFKA_HOST || 'localhost:9092';
 const client = new kafka.KafkaClient({ kafkaHost });
-const consumer = new kafka.Consumer(
-  client,
-  [{ topic: 'ad-events', partition: 0 }],
-  { autoCommit: true }
-);
+const consumer = new kafka.Consumer(client, [{ topic: 'ad-events', partition: 0 }], {
+  autoCommit: true,
+});
 
-function startAggregation(){
+function startAggregation() {
   const adAggregation = {};
 
   consumer.on('message', (message) => {
@@ -30,25 +28,25 @@ function startAggregation(){
   });
 }
 
-function stopAggregation(){
+function stopAggregation() {
   consumer.close(true, () => {
     console.log('Consumer closed');
     process.exit(0);
-});
+  });
 }
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  const action = req.query.action ?? "stop";
-  if(action === 'start'){
-    startAggregation()
-  }else{
-    stopAggregation()
+router.get('/', function (req, res, next) {
+  const action = req.query.action ?? 'stop';
+  if (action === 'start') {
+    startAggregation();
+  } else {
+    stopAggregation();
   }
 
   res.json({
-    action
-  })
+    action,
+  });
 });
 
 module.exports = router;
